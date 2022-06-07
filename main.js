@@ -5,7 +5,7 @@ o---------o
 | On Load |
 o---------o
 */
-
+let companyName = "zaizi";
 let questionsData = await fetchData();
 renderQuestionCards(questionsData.questions);
 
@@ -19,7 +19,7 @@ async function fetchData() {
   // Indicate that the page is loading
   $("html").style = "cursor: wait !important";
 
-  const ref = firestore.doc(db, "qcollection", "zaizi");
+  const ref = firestore.doc(db, "qcollection", companyName);
   const snap = await firestore.getDoc(ref);
   const data = snap.data();
 
@@ -85,6 +85,8 @@ o------------------o
 */
 
 function renderQuestionCards(questionArr) {
+  clearElement(".questions");
+
   questionArr.forEach(({ question, author }) => {
     const newLi = createElement({
       tag: "li",
@@ -135,7 +137,7 @@ const modalBtn = $(".modal__button");
 modalBtn.addEventListener("click", addToDB);
 
 async function addToDB() {
-  const ref = firestore.doc(db, "qcollection", "zaizi");
+  const ref = firestore.doc(db, "qcollection", companyName);
   const nameInput = $("#name");
   const questionInput = $("#question");
 
@@ -150,7 +152,6 @@ async function addToDB() {
   createNotification("Question added successfully!");
 
   questionsData = await fetchData();
-  clearElement(".questions");
   renderQuestionCards(questionsData.questions);
 
   // Clean up/Reset form values
@@ -158,6 +159,20 @@ async function addToDB() {
   questionInput.value = "";
 }
 
-async function addReviewToDb() {
-  updateReviews();
+/*
+o-------------------------------o
+| Search questions for keywords |
+o-------------------------------o
+*/
+
+const searchBar = $(".search");
+
+searchBar.addEventListener("keyup", filterQuestions);
+
+function filterQuestions({ currentTarget }) {
+  const filteredQuestionsArr = questionsData.questions.filter((data) =>
+    data.question.includes(currentTarget.value)
+  );
+
+  renderQuestionCards(filteredQuestionsArr);
 }

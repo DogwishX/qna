@@ -1,5 +1,4 @@
 body {
-  background-color: #e5e5e5;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -24,6 +23,16 @@ p {
 
 .company-name {
   text-align: center;
+}
+
+.search {
+  display: block;
+  height: 2rem;
+  width: 80%;
+  max-width: 25rem;
+  margin: auto;
+  padding-left: 1rem;
+  font-size: 1rem;
 }
 
 .questions {
@@ -78,9 +87,10 @@ p {
 
 .modal {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
+  float: left;
   padding: 2rem;
   transform: translate(-50%, -50%);
   flex-direction: column;
