@@ -167,7 +167,7 @@ searchBar.addEventListener("keyup", filterQuestions);
 
 function filterQuestions({ currentTarget }) {
   const filteredQuestionsArr = questionsData.questions.filter((data) =>
-    data.question.includes(currentTarget.value)
+    data.question.toLowerCase().includes(currentTarget.value.toLowerCase())
   );
 
   renderQuestionCards(filteredQuestionsArr);
