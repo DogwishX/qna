@@ -7,7 +7,7 @@ o---------o
 */
 
 let questionsData = await fetchData();
-renderQuestionCards();
+renderQuestionCards(questionsData.questions);
 
 /*
 o-----------o
@@ -16,9 +16,15 @@ o-----------o
 */
 
 async function fetchData() {
+  // Indicate that the page is loading
+  $("html").style = "cursor: wait !important";
+
   const ref = firestore.doc(db, "qcollection", "zaizi");
   const snap = await firestore.getDoc(ref);
   const data = snap.data();
+
+  // End loading animation
+  $("html").style = "cursor: default";
 
   return data;
 }
@@ -56,14 +62,30 @@ function createElement({
   return newElement;
 }
 
+function clearElement(selector) {
+  $(selector).innerHTML = "";
+}
+
+function createNotification(text) {
+  const notificationsDiv = document.querySelector(".notifications");
+  const notification = createElement({
+    tag: "div",
+    className: "notification",
+    parent: notificationsDiv,
+    text: text,
+  });
+
+  setTimeout(() => notification.remove(), 3000);
+}
+
 /*
 o------------------o
 | Render Questions |
 o------------------o
 */
 
-function renderQuestionCards() {
-  questionsData.questions.forEach(({ question, author }) => {
+function renderQuestionCards(questionArr) {
+  questionArr.forEach(({ question, author }) => {
     const newLi = createElement({
       tag: "li",
       className: "card",
@@ -84,4 +106,58 @@ function renderQuestionCards() {
       text: author,
     });
   });
+}
+
+/*
+o--------------------------o
+| Add Question to Database |
+o--------------------------o
+*/
+
+// Display Modal
+const modal = $(".modal");
+const addBtn = $(".add-btn");
+
+addBtn.addEventListener("click", toggleModal);
+
+function toggleModal() {
+  modal.classList.toggle("modal--active");
+}
+
+// Hide Modal
+const modalCloseBtn = $(".modal__close");
+
+modalCloseBtn.addEventListener("click", toggleModal);
+
+// Add question
+const modalBtn = $(".modal__button");
+
+modalBtn.addEventListener("click", addToDB);
+
+async function addToDB() {
+  const ref = firestore.doc(db, "qcollection", "zaizi");
+  const nameInput = $("#name");
+  const questionInput = $("#question");
+
+  await firestore.updateDoc(ref, {
+    questions: firestore.arrayUnion({
+      question: questionInput.value,
+      author: nameInput.value,
+    }),
+  });
+
+  toggleModal();
+  createNotification("Question added successfully!");
+
+  questionsData = await fetchData();
+  clearElement(".questions");
+  renderQuestionCards(questionsData.questions);
+
+  // Clean up/Reset form values
+  nameInput.value = "";
+  questionInput.value = "";
+}
+
+async function addReviewToDb() {
+  updateReviews();
 }

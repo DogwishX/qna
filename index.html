@@ -11,7 +11,38 @@
     <h1 class="company-name">Zaizi</h1>
     <div class="search"></div>
     <ul class="questions"></ul>
+    <div class="notifications"></div>
+
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title">Add a Question</h2>
+        <i class="modal__close fa-solid fa-xmark"></i>
+      </div>
+      <form class="modal__form" onsubmit="return false">
+        <label class="modal__label" for="name">Name</label>
+        <input
+          class="modal__input"
+          id="name"
+          type="text"
+          placeholder="Your name"
+        />
+        <label class="modal__label" for="question">Question</label>
+        <input
+          class="modal__input"
+          id="question"
+          type="text"
+          placeholder="Your question"
+        />
+        <button class="modal__button btn" type="button">Add</button>
+      </form>
+    </div>
+    <button class="add-btn btn">add question</button>
 
     <script type="module" src="main.js"></script>
+    <!-- Font Awesome Icon Library -->
+    <script
+      src="https://kit.fontawesome.com/248cd170f1.js"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
