@@ -176,3 +176,18 @@ function filterQuestions({ currentTarget }) {
 
   renderQuestionCards(filteredQuestionsArr);
 }
+
+/*
+o---------------------o
+| Change company name |
+o---------------------o
+*/
+const selectCompany = $(".company-name");
+
+selectCompany.addEventListener("change", changeCompanyName);
+
+async function changeCompanyName({ currentTarget }) {
+  companyName = currentTarget.value.toLowerCase();
+  questionsData = await fetchData();
+  renderQuestionCards(questionsData.questions);
+}

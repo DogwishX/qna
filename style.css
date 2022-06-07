@@ -22,7 +22,16 @@ p {
 }
 
 .company-name {
+  display: block;
   text-align: center;
+  font-size: 2rem;
+  margin: 2rem auto;
+  border: none;
+  background-color: white;
+}
+
+.company-name--option {
+  font-size: 1.5rem;
 }
 
 .search {
