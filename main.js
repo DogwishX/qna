@@ -39,10 +39,6 @@ function $(selector, element = document) {
   return element.querySelector(selector);
 }
 
-function $$(selector, element = document) {
-  return [...element.querySelectorAll(selector)];
-}
-
 function createElement({
   tag,
   className,
