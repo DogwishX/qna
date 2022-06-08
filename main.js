@@ -178,9 +178,9 @@ o---------------------o
 | Change company name |
 o---------------------o
 */
-const selectCompany = $(".company-name");
+const companyNameEl = $(".company-name");
 
-selectCompany.addEventListener("change", changeCompanyName);
+companyNameEl.addEventListener("change", changeCompanyName);
 
 async function changeCompanyName({ currentTarget }) {
   companyName = currentTarget.value.toLowerCase();
